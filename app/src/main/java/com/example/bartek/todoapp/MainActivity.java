@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
         displayLists();
     }
 
+    public void onStart() {
+        super.onStart();
+        tableLayout.removeAllViews();
+        displayLists();
+    }
 
     private void displayLists() {
         Cursor data = database.getLists();

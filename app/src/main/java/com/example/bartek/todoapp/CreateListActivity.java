@@ -11,10 +11,14 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.example.bartek.todoapp.database.DatabaseHelper;
+
 public class CreateListActivity extends AppCompatActivity {
     private Button addItemButton;
+    private Button createListButton;
     private TableLayout tableLayout;
     private EditText nameOfItemEditText;
+    private DatabaseHelper database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,8 @@ public class CreateListActivity extends AppCompatActivity {
         nameOfItemEditText = findViewById(R.id.nameOfItem);
         tableLayout = findViewById(R.id.tableLayout);
         addItemButton = findViewById(R.id.addNewElementButton);
+        createListButton = findViewById(R.id.createListButton);
+        database = new DatabaseHelper(this);
 
         addListeners();
     }
@@ -32,6 +38,14 @@ public class CreateListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addItem();
+            }
+        });
+        createListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String nameOfList = ((EditText) findViewById(R.id.nameOfList)).getText().toString();
+                database.insert(nameOfList);
+                finish();
             }
         });
 
