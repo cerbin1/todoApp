@@ -1,6 +1,7 @@
 package com.example.bartek.todoapp;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -20,14 +21,14 @@ public class CreateListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_list);
         nameOfItemEditText = findViewById(R.id.nameOfItem);
+        tableLayout = findViewById(R.id.tableLayout);
+        addItemButton = findViewById(R.id.addNewElementButton);
 
         addListeners();
     }
 
     private void addListeners() {
-        addItemButton = findViewById(R.id.addNewElementButton);
         addItemButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 addItem();
@@ -37,15 +38,20 @@ public class CreateListActivity extends AppCompatActivity {
     }
 
     public void addItem() {
-        tableLayout = findViewById(R.id.tableLayout);
         final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
-        String nameOfItem = nameOfItemEditText.getText().toString();
 
-        EditText textView = new EditText(this);
-        textView.setText(nameOfItem);
-        tableRow.addView(textView);
+        EditText nameOfItem = getNameOfItemEditText();
+        tableRow.addView(nameOfItem);
 
+        ImageButton deleteItem = getDeleteItemImageButton(tableRow);
+        tableRow.addView(deleteItem);
+
+        tableLayout.addView(tableRow);
+    }
+
+    @NonNull
+    private ImageButton getDeleteItemImageButton(final TableRow tableRow) {
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
         deleteItem.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +60,18 @@ public class CreateListActivity extends AppCompatActivity {
                 tableLayout.removeView(tableRow);
             }
         });
-        tableRow.addView(deleteItem);
+        return deleteItem;
+    }
 
-        tableLayout.addView(tableRow);
+    @NonNull
+    private EditText getNameOfItemEditText() {
+        EditText nameOfItemEditText = new EditText(this);
+        nameOfItemEditText.setText(getNameOfItemFromEditText());
+        return nameOfItemEditText;
+    }
+
+    @NonNull
+    private String getNameOfItemFromEditText() {
+        return nameOfItemEditText.getText().toString();
     }
 }
