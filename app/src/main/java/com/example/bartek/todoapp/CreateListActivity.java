@@ -38,7 +38,7 @@ public class CreateListActivity extends AppCompatActivity {
 
     public void addItem() {
         tableLayout = findViewById(R.id.tableLayout);
-        TableRow tableRow = new TableRow(this);
+        final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
         String nameOfItem = nameOfItemEditText.getText().toString();
 
@@ -48,6 +48,12 @@ public class CreateListActivity extends AppCompatActivity {
 
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
+        deleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tableLayout.removeView(tableRow);
+            }
+        });
         tableRow.addView(deleteItem);
 
         tableLayout.addView(tableRow);
