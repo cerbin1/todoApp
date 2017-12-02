@@ -15,6 +15,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DATABA
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.NAME_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_CREATE_ENTRIES;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_DELETE_ENTRIES;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_ID_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_LISTS;
 
@@ -43,22 +44,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public boolean addItems(String nameOfList, List<Item> items) {
+    public void addItems(int idOfList, List<Item> items) {
         SQLiteDatabase database = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        Cursor data = database.rawQuery("SELECT Id FROM Lists WHERE Name =" + nameOfList, null);
-        int idOfList = data.getInt(0);
-
         for (Item item : items) {
             database.execSQL("INSERT INTO Items VALUES(" + idOfList + ", " + item.getName() + ")");
         }
-        values.put(NAME_LIST, nameOfList);
-        long result = database.insert(TABLE_LISTS, null, values);
-        return result != -1;
     }
 
     public Cursor getLists() {
         SQLiteDatabase database = this.getReadableDatabase();
         return database.rawQuery(SQL_SELECT_LISTS, null);
+    }
+
+    public Cursor getIdOfList(String nameOfList) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.rawQuery(SQL_SELECT_ID_OF_LIST, new String[]{nameOfList});
     }
 }

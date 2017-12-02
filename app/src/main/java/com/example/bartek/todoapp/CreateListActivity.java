@@ -1,5 +1,6 @@
 package com.example.bartek.todoapp;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -50,13 +51,22 @@ public class CreateListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nameOfList = ((EditText) findViewById(R.id.nameOfList)).getText().toString();
-                if (!database.addItems(nameOfList, items)) {
-                    Log.e("tag", "Error creating list");
+
+                if (database.createTodoList(nameOfList)) {
+                    int idOfList = getIdOfList(nameOfList);
+                    database.addItems(idOfList, items);
+                } else {
+                    Log.e("Database Error", "Error while creating todo list.");
                 }
                 finish();
             }
-        });
 
+            private int getIdOfList(String nameOfList) {
+                Cursor data = database.getIdOfList(nameOfList);
+                data.moveToFirst();
+                return data.getInt(0);
+            }
+        });
     }
 
     public void addTableRow() {

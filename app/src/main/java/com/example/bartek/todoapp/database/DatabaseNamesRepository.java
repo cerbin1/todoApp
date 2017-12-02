@@ -11,7 +11,7 @@ public final class DatabaseNamesRepository {
     static final String NAME_LIST = "Name";
 
     static final String ID_LIST_FOREIGN_KEY = "IdList";
-    static final String NAME_ITEMS = "Name";
+    static final String NAME_ITEMS = "ItemName";
 
     static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
             + TABLE_LISTS + "("
@@ -24,6 +24,6 @@ public final class DatabaseNamesRepository {
 
     static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_LISTS + ";" + " DROP TABLE IF EXISTS " + TABLE_ITEMS + ";";
-
     static final String SQL_SELECT_LISTS = "SELECT " + NAME_LIST + " FROM " + TABLE_LISTS;
+    static final String SQL_SELECT_ID_OF_LIST = "SELECT " + ID_LIST + " FROM " + TABLE_LISTS + " WHERE " + NAME_LIST + "=?";
 }
