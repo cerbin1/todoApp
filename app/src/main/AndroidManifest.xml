@@ -20,9 +20,10 @@
         <activity
             android:name=".CreateListActivity"
             android:parentActivityName=".MainActivity"
-            tools:targetApi="lollipop">
-
-        </activity>
+            tools:targetApi="lollipop" />
+        <activity
+            android:name=".TodoListActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

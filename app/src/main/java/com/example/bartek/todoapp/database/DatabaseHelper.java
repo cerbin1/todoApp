@@ -6,20 +6,22 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.bartek.todoapp.Item;
+
+import java.util.List;
+
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DATABASE_NAME;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ELEMENT1;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ELEMENT2;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ELEMENT3;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.NAME;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DATABASE_VERSION;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.NAME_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_CREATE_ENTRIES;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_DELETE_ENTRIES;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_LISTS;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_TEST;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_LISTS;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 4);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -33,14 +35,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean insert(String name) {
+    public boolean createTodoList(String name) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(NAME, name);
-        values.put(ELEMENT1, "elem1");
-        values.put(ELEMENT2, "elem2");
-        values.put(ELEMENT3, "elem3");
-        long result = database.insert(TABLE_TEST, null, values);
+        values.put(NAME_LIST, name);
+        long result = database.insert(TABLE_LISTS, null, values);
+        return result != -1;
+    }
+
+    public boolean addItems(String nameOfList, List<Item> items) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        Cursor data = database.rawQuery("SELECT Id FROM Lists WHERE Name =" + nameOfList, null);
+        int idOfList = data.getInt(0);
+
+        for (Item item : items) {
+            database.execSQL("INSERT INTO Items VALUES(" + idOfList + ", " + item.getName() + ")");
+        }
+        values.put(NAME_LIST, nameOfList);
+        long result = database.insert(TABLE_LISTS, null, values);
         return result != -1;
     }
 

@@ -3,6 +3,7 @@ package com.example.bartek.todoapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -42,11 +43,27 @@ public class MainActivity extends AppCompatActivity {
             tableRow.setGravity(CENTER_HORIZONTAL);
 
             Button button = new Button(this);
-            button.setText(data.getString(0));
+            final String nameOfList = data.getString(0);
+            button.setText(nameOfList);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = createIntent();
+                    intent.putExtra("nameOfList", nameOfList);
+                    startActivity(intent);
+                }
+            });
 
             tableRow.addView(button);
             tableLayout.addView(tableRow);
+
+
         }
+    }
+
+    @NonNull
+    private Intent createIntent() {
+        return new Intent(this, TodoListActivity.class);
     }
 
     public void addListeners() {
