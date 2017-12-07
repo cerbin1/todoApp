@@ -10,11 +10,13 @@ import com.example.bartek.todoapp.Item;
 
 import java.util.List;
 
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.CREATE_TABLE_ITEMS;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.CREATE_TABLE_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DATABASE_NAME;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DATABASE_VERSION;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE_TABLE_ITEMS;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE_TABLE_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.NAME_LIST;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_CREATE_ENTRIES;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_DELETE_ENTRIES;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_ID_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_LISTS;
@@ -27,12 +29,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
+        sqLiteDatabase.execSQL(CREATE_TABLE_LISTS);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ITEMS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
+        sqLiteDatabase.execSQL(DELETE_TABLE_LISTS);
+        sqLiteDatabase.execSQL(DELETE_TABLE_ITEMS);
         onCreate(sqLiteDatabase);
     }
 
@@ -47,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addItems(int idOfList, List<Item> items) {
         SQLiteDatabase database = this.getWritableDatabase();
         for (Item item : items) {
-            database.execSQL("INSERT INTO Items VALUES(" + idOfList + ", " + item.getName() + ")");
+            database.execSQL("INSERT INTO Items(IdList, ItemName) VALUES(" + idOfList + ", \"" + item.getName() + "\");");
         }
     }
 
@@ -57,7 +61,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getIdOfList(String nameOfList) {
-        SQLiteDatabase database = this.getWritableDatabase();
+        SQLiteDatabase database = this.getReadableDatabase();
         return database.rawQuery(SQL_SELECT_ID_OF_LIST, new String[]{nameOfList});
+    }
+
+    public Cursor getItems(String nameOfList) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        String query = "SELECT Items.ItemName FROM Lists JOIN Items ON Lists.Id = Items.IdList WHERE Lists.Name=?";
+        return database.rawQuery(query, new String[]{nameOfList});
     }
 }

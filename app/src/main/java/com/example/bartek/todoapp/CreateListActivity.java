@@ -73,7 +73,7 @@ public class CreateListActivity extends AppCompatActivity {
         final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
         Item item = new Item(getNameOfItemFromEditText());
-
+        items.add(item);
         tableRow.addView(getNameOfItemEditText());
         tableRow.addView(getDeleteItemImageButton(tableRow, item));
 
