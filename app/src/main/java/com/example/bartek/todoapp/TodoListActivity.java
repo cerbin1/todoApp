@@ -1,7 +1,9 @@
 package com.example.bartek.todoapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,7 +32,8 @@ public class TodoListActivity extends AppCompatActivity {
         Cursor data = database.getItems(nameOfList);
         LinearLayout container = findViewById(R.id.linearLayout);
         while (data.moveToNext()) {
-            final TextView itemName = createItemNameTextView(data.getString(0));
+            TextView itemName = createItemNameTextView(data.getString(0));
+
             LinearLayout newEntryLayout = new LinearLayout(this);
             newEntryLayout.addView(itemName, getLayoutParamsForItem());
             newEntryLayout.addView(createItemButton(itemName));
@@ -44,7 +47,11 @@ public class TodoListActivity extends AppCompatActivity {
         itemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                if (isChecked(itemName)) {
+                    setUnchecked(itemName);
+                } else {
+                    setChecked(itemName);
+                }
             }
         });
 
@@ -52,10 +59,27 @@ public class TodoListActivity extends AppCompatActivity {
         return itemButton;
     }
 
+    private void setChecked(TextView itemName) {
+        itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        itemName.setTypeface(Typeface.DEFAULT);
+        itemName.setTextColor(Color.BLACK);
+    }
+
+    private void setUnchecked(TextView itemName) {
+        itemName.setTypeface(null, Typeface.BOLD);
+        itemName.setTextColor(Color.RED);
+    }
+
+    private boolean isChecked(TextView itemName) {
+        return itemName.getCurrentTextColor() == Color.BLACK;
+    }
+
     public TextView createItemNameTextView(String itemName) {
         TextView itemNameTextView = new TextView(this);
+        itemNameTextView.setGravity(Gravity.CENTER);
         itemNameTextView.setText(itemName);
-        itemNameTextView.setTextSize(20);
+        itemNameTextView.setTextSize(25);
+        setUnchecked(itemNameTextView);
         return itemNameTextView;
     }
 
