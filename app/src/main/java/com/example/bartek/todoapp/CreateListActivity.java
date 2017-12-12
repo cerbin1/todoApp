@@ -58,8 +58,12 @@ public class CreateListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nameOfList = ((EditText) findViewById(R.id.nameOfList)).getText().toString();
 
-                if (isAnyEmptyItemInList()) {
-                    makeText(CreateListActivity.this, "Some items have no name!", LENGTH_SHORT).show();
+                if (nameOfList.equals("")) {
+                    displayToastWithText("Empty name of list!");
+                } else if (listItems.isEmpty()) {
+                    displayToastWithText("Add some items!");
+                } else if (isAnyEmptyItemInList()) {
+                    displayToastWithText("Some items have no name!");
                 } else {
                     if (database.createTodoList(nameOfList)) {
                         int idOfList = getIdOfList(nameOfList);
@@ -77,6 +81,11 @@ public class CreateListActivity extends AppCompatActivity {
                 return idOfList.getInt(0);
             }
         });
+    }
+
+
+    private void displayToastWithText(String text) {
+        makeText(CreateListActivity.this, text, LENGTH_SHORT).show();
     }
 
     public void addTableRow() {
