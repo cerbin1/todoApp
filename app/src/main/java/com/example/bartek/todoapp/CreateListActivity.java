@@ -18,6 +18,9 @@ import com.example.bartek.todoapp.database.DatabaseHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
+
 public class CreateListActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private Button addItemButton;
@@ -55,13 +58,17 @@ public class CreateListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nameOfList = ((EditText) findViewById(R.id.nameOfList)).getText().toString();
 
-                if (database.createTodoList(nameOfList)) {
-                    int idOfList = getIdOfList(nameOfList);
-                    database.addItemsToList(idOfList, listItems);
+                if (isAnyEmptyItemInList()) {
+                    makeText(CreateListActivity.this, "Some items have no name!", LENGTH_SHORT).show();
                 } else {
-                    Log.e("Database Error", "Error while creating todo list.");
+                    if (database.createTodoList(nameOfList)) {
+                        int idOfList = getIdOfList(nameOfList);
+                        database.addItemsToList(idOfList, listItems);
+                    } else {
+                        Log.e("Database Error", "Error while creating todo list.");
+                    }
+                    finish();
                 }
-                finish();
             }
 
             private int getIdOfList(String nameOfList) {
@@ -107,5 +114,14 @@ public class CreateListActivity extends AppCompatActivity {
     @NonNull
     private String getNameOfItemFromEditText() {
         return nameOfItemEditText.getText().toString();
+    }
+
+    public boolean isAnyEmptyItemInList() {
+        for (Item item : listItems) {
+            if (item.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
