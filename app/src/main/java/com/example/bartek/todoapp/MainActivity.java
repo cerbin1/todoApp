@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tableLayout = findViewById(R.id.tableLayout);
         database = new DatabaseHelper(this);
+        tableLayout = findViewById(R.id.tableLayout);
 
         addListeners();
         displayLists();
@@ -34,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         tableLayout.removeAllViews();
         displayLists();
+    }
+
+    public void addListeners() {
+        Button button = findViewById(R.id.createNewListButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CreateListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void displayLists() {
@@ -56,24 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
             tableRow.addView(button);
             tableLayout.addView(tableRow);
-
-
         }
     }
 
     @NonNull
     private Intent createIntent() {
         return new Intent(this, TodoListActivity.class);
-    }
-
-    public void addListeners() {
-        Button button = (Button) findViewById(R.id.createNewListButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateListActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }

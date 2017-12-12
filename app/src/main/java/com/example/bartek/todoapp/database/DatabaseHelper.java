@@ -48,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    public void addItems(int idOfList, List<Item> items) {
+    public void addItemsToList(int idOfList, List<Item> items) {
         SQLiteDatabase database = this.getWritableDatabase();
         for (Item item : items) {
             database.execSQL("INSERT INTO Items(IdList, ItemName) VALUES(" + idOfList + ", \"" + item.getName() + "\");");

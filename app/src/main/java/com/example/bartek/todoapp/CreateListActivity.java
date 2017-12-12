@@ -19,23 +19,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateListActivity extends AppCompatActivity {
+    private TableLayout tableLayout;
     private Button addItemButton;
     private Button createListButton;
-    private TableLayout tableLayout;
     private EditText nameOfItemEditText;
+
     private DatabaseHelper database;
-    private List<Item> items;
+    private List<Item> listItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_list);
-        nameOfItemEditText = findViewById(R.id.nameOfItem);
+
         tableLayout = findViewById(R.id.tableLayout);
         addItemButton = findViewById(R.id.addNewElementButton);
         createListButton = findViewById(R.id.createListButton);
+        nameOfItemEditText = findViewById(R.id.nameOfItem);
+
         database = new DatabaseHelper(this);
-        items = new ArrayList<>(5);
+        listItems = new ArrayList<>(5);
 
         addListeners();
     }
@@ -54,7 +57,7 @@ public class CreateListActivity extends AppCompatActivity {
 
                 if (database.createTodoList(nameOfList)) {
                     int idOfList = getIdOfList(nameOfList);
-                    database.addItems(idOfList, items);
+                    database.addItemsToList(idOfList, listItems);
                 } else {
                     Log.e("Database Error", "Error while creating todo list.");
                 }
@@ -62,9 +65,9 @@ public class CreateListActivity extends AppCompatActivity {
             }
 
             private int getIdOfList(String nameOfList) {
-                Cursor data = database.getIdOfList(nameOfList);
-                data.moveToFirst();
-                return data.getInt(0);
+                Cursor idOfList = database.getIdOfList(nameOfList);
+                idOfList.moveToFirst();
+                return idOfList.getInt(0);
             }
         });
     }
@@ -73,29 +76,29 @@ public class CreateListActivity extends AppCompatActivity {
         final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
         Item item = new Item(getNameOfItemFromEditText());
-        items.add(item);
-        tableRow.addView(getNameOfItemEditText());
-        tableRow.addView(getDeleteItemImageButton(tableRow, item));
+        listItems.add(item);
+        tableRow.addView(createNameOfItemEditText());
+        tableRow.addView(createDeleteItemImageButton(tableRow, item));
 
         tableLayout.addView(tableRow);
     }
 
     @NonNull
-    private ImageButton getDeleteItemImageButton(final TableRow tableRow, final Item item) {
+    private ImageButton createDeleteItemImageButton(final TableRow tableRow, final Item item) {
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tableLayout.removeView(tableRow);
-                items.remove(item);
+                listItems.remove(item);
             }
         });
         return deleteItem;
     }
 
     @NonNull
-    private EditText getNameOfItemEditText() {
+    private EditText createNameOfItemEditText() {
         EditText nameOfItemEditText = new EditText(this);
         nameOfItemEditText.setText(getNameOfItemFromEditText());
         return nameOfItemEditText;
