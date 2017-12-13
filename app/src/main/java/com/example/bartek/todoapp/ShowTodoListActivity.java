@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
+import static com.example.bartek.todoapp.StringResources.NAME_OF_LIST_STRING;
+
 public class ShowTodoListActivity extends AppCompatActivity {
     private DatabaseHelper database;
 
@@ -28,7 +30,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
     }
 
     private void displayListElements() {
-        String nameOfList = getIntent().getStringExtra("nameOfList");
+        String nameOfList = getIntent().getStringExtra(NAME_OF_LIST_STRING);
         Cursor data = database.getItems(nameOfList);
         LinearLayout container = findViewById(R.id.linearLayout);
         while (data.moveToNext()) {

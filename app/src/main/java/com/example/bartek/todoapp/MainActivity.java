@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
 import static android.view.Gravity.CENTER_HORIZONTAL;
+import static com.example.bartek.todoapp.StringResources.NAME_OF_LIST_STRING;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper database;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = createIntent();
-                    intent.putExtra("nameOfList", nameOfList);
+                    intent.putExtra(NAME_OF_LIST_STRING, nameOfList);
                     startActivity(intent);
                 }
             });
