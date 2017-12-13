@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateListActivity.class);
+                Intent intent = new Intent(MainActivity.this, CreateTodoListActivity.class);
                 startActivity(intent);
             }
         });
@@ -72,6 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     @NonNull
     private Intent createIntent() {
-        return new Intent(this, TodoListActivity.class);
+        return new Intent(this, ShowTodoListActivity.class);
     }
 }

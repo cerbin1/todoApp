@@ -21,7 +21,7 @@ import java.util.List;
 import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
 
-public class CreateListActivity extends AppCompatActivity {
+public class CreateTodoListActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private Button addItemButton;
     private Button createListButton;
@@ -85,7 +85,7 @@ public class CreateListActivity extends AppCompatActivity {
 
 
     private void displayToastWithText(String text) {
-        makeText(CreateListActivity.this, text, LENGTH_SHORT).show();
+        makeText(CreateTodoListActivity.this, text, LENGTH_SHORT).show();
     }
 
     public void addTableRow() {

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
-public class TodoListActivity extends AppCompatActivity {
+public class ShowTodoListActivity extends AppCompatActivity {
     private DatabaseHelper database;
 
     @Override

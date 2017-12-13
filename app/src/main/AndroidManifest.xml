@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateListActivity"
+            android:name=".CreateTodoListActivity"
             android:parentActivityName=".MainActivity"
             tools:targetApi="lollipop" />
         <activity
-            android:name=".TodoListActivity"
+            android:name=".ShowTodoListActivity"
             android:parentActivityName=".MainActivity" />
     </application>
 
