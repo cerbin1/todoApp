@@ -62,7 +62,7 @@ public class TodoListActivity extends AppCompatActivity {
     private void setChecked(TextView itemName) {
         itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         itemName.setTypeface(Typeface.DEFAULT);
-        itemName.setTextColor(Color.BLACK);
+        itemName.setTextColor(Color.GRAY);
     }
 
     private void setUnchecked(TextView itemName) {
@@ -72,7 +72,7 @@ public class TodoListActivity extends AppCompatActivity {
     }
 
     private boolean isChecked(TextView itemName) {
-        return itemName.getCurrentTextColor() == Color.BLACK;
+        return itemName.getCurrentTextColor() == Color.GRAY;
     }
 
     public TextView createItemNameTextView(String itemName) {
