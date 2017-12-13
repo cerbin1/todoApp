@@ -66,6 +66,7 @@ public class TodoListActivity extends AppCompatActivity {
     }
 
     private void setUnchecked(TextView itemName) {
+        itemName.setPaintFlags(itemName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         itemName.setTypeface(null, Typeface.BOLD);
         itemName.setTextColor(Color.RED);
     }
