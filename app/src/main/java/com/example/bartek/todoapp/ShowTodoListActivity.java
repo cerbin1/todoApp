@@ -57,7 +57,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
             }
         });
 
-        itemButton.setText("Done");
+        itemButton.setText(R.string.done);
         return itemButton;
     }
 
