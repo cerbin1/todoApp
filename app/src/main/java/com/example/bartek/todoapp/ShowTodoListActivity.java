@@ -20,11 +20,12 @@ import com.example.bartek.todoapp.database.UnexpectedDataException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
 import static com.example.bartek.todoapp.StringResources.NAME_OF_LIST_STRING;
 
 public class ShowTodoListActivity extends AppCompatActivity {
     private DatabaseHelper database;
-    private final List<Item> listItems = new ArrayList<>(5);
+    private final List<Item> listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

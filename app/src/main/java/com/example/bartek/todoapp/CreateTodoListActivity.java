@@ -20,6 +20,7 @@ import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
+import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
 
 public class CreateTodoListActivity extends AppCompatActivity {
     private TableLayout tableLayout;
@@ -41,7 +42,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
         nameOfItemEditText = findViewById(R.id.nameOfItem);
 
         database = new DatabaseHelper(this);
-        listItems = new ArrayList<>(5);
+        listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
 
         addListeners();
     }

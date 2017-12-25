@@ -1,6 +1,8 @@
 package com.example.bartek.todoapp;
 
 public class Item {
+    public final static int INITIAL_ITEMS_AMOUNT = 5;
+
     private final String name;
     private int id;
     private boolean checked;
