@@ -91,7 +91,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
     public void addTableRow() {
         final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
-        Item item = new Item(getNameOfItemFromEditText());
+        Item item = new Item(getNameOfItemFromEditText(), listItems.size(), false);
         listItems.add(item);
         tableRow.addView(createNameOfItemEditText());
         tableRow.addView(createDeleteItemImageButton(tableRow, item));

@@ -12,6 +12,7 @@ public final class DatabaseNamesRepository {
 
     static final String ID_LIST_FOREIGN_KEY = "IdList";
     static final String NAME_ITEMS = "ItemName";
+    static final String ID_OF_ITEM = "ItemId";
 
     static final String CREATE_TABLE_LISTS = "CREATE TABLE "
             + TABLE_LISTS + "("
@@ -20,8 +21,10 @@ public final class DatabaseNamesRepository {
 
     static final String CREATE_TABLE_ITEMS = " CREATE TABLE "
             + TABLE_ITEMS + "("
+            + ID_OF_ITEM + " INTEGER, "
             + ID_LIST_FOREIGN_KEY + " INTEGER, "
             + NAME_ITEMS + " TEXT, "
+            + "Checked INTEGER,"
             + "FOREIGN KEY(" + ID_LIST_FOREIGN_KEY + ") REFERENCES " + TABLE_LISTS + "(" + ID_LIST + ")"
             + ");";
 

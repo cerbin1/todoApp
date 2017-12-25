@@ -19,6 +19,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.NAME_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_ID_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SQL_SELECT_LISTS;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_ITEMS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_LISTS;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -51,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addItemsToList(int idOfList, List<Item> items) {
         SQLiteDatabase database = this.getWritableDatabase();
         for (Item item : items) {
-            database.execSQL("INSERT INTO Items(IdList, ItemName) VALUES(" + idOfList + ", \"" + item.getName() + "\");");
+            database.execSQL("INSERT INTO Items(IdList, ItemName, ItemId , Checked) VALUES(" + idOfList + ", \"" + item.getName() + "\"," + item.getId() + ", 0);");
         }
     }
 
@@ -67,7 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getItems(String nameOfList) {
         SQLiteDatabase database = this.getReadableDatabase();
-        String query = "SELECT Items.ItemName FROM Lists JOIN Items ON Lists.Id = Items.IdList WHERE Lists.Name=?";
+        String query = "SELECT Items.ItemName, Items.ItemId, Items.Checked FROM Lists JOIN Items ON Lists.Id = Items.IdList WHERE Lists.Name=?";
         return database.rawQuery(query, new String[]{nameOfList});
+    }
+
+    public boolean changeStatusOfItem(int idOfItem, int value) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Checked", value);
+        return database.update(TABLE_ITEMS, contentValues, "ItemId=" + idOfItem, null) != 0;
     }
 }
