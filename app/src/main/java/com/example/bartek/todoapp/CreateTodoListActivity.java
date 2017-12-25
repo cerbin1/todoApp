@@ -60,6 +60,8 @@ public class CreateTodoListActivity extends AppCompatActivity {
 
                 if (nameOfList.equals("")) {
                     displayToastWithText("Empty name of list!");
+                } else if (nameOfList.length() > 30) {
+                    displayToastWithText("Name can have 30 characters max!");
                 } else if (items.isEmpty()) {
                     displayToastWithText("Add some items!");
                 } else if (isAnyEmptyItemInList()) {
