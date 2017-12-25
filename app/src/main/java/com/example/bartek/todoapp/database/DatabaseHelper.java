@@ -18,6 +18,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE_TABLE_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_CHECKED;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_ID;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_ID;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_NAME;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ID_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ITEMS;
@@ -81,5 +82,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(ITEM_CHECKED, value);
         int result = database.update(TABLE_ITEMS, contentValues, ITEM_ID + "=" + idOfItem, null);
         return result != 0;
+    }
+
+    public void deleteList(int listId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_LISTS, LIST_ID + "=?", new String[]{Integer.toString(listId)});
     }
 }

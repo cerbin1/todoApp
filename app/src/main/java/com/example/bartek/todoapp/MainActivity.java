@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -54,12 +55,30 @@ public class MainActivity extends AppCompatActivity {
             TableRow tableRow = new TableRow(this);
             tableRow.setGravity(CENTER_HORIZONTAL);
 
-            String listName = data.getString(0);
+            String listName = data.getString(1);
             Button button = createShowListButton(listName);
 
             tableRow.addView(button);
+
+            int listId = data.getInt(0);
+            tableRow.addView(createDeleteListButton(tableRow, listId));
+
             tableLayout.addView(tableRow);
         }
+    }
+
+    private ImageButton createDeleteListButton(final TableRow tableRow, final int listId) {
+
+        ImageButton deleteItem = new ImageButton(this);
+        deleteItem.setBackgroundResource(R.drawable.ic_delete);
+        deleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tableLayout.removeView(tableRow);
+                database.deleteList(listId);
+            }
+        });
+        return deleteItem;
     }
 
     @NonNull
