@@ -54,17 +54,8 @@ public class MainActivity extends AppCompatActivity {
             TableRow tableRow = new TableRow(this);
             tableRow.setGravity(CENTER_HORIZONTAL);
 
-            Button button = new Button(this);
-            final String nameOfList = data.getString(0);
-            button.setText(nameOfList);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = createIntent();
-                    intent.putExtra(NAME_OF_LIST_STRING, nameOfList);
-                    startActivity(intent);
-                }
-            });
+            String listName = data.getString(0);
+            Button button = createShowListButton(listName);
 
             tableRow.addView(button);
             tableLayout.addView(tableRow);
@@ -72,7 +63,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private Intent createIntent() {
-        return new Intent(this, ShowTodoListActivity.class);
+    private Button createShowListButton(final String listName) {
+        Button button = new Button(this);
+        button.setText(listName);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShowTodoListActivity.class);
+                intent.putExtra(NAME_OF_LIST_STRING, listName);
+                startActivity(intent);
+            }
+        });
+        return button;
     }
 }

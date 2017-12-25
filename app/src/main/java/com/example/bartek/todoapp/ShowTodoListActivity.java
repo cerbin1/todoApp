@@ -32,6 +32,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
         database = new DatabaseHelper(this);
+
         getListItems();
         displayListElements();
     }
@@ -43,15 +44,23 @@ public class ShowTodoListActivity extends AppCompatActivity {
             String name = data.getString(0);
             int id = data.getInt(1);
             boolean checked;
-            if (data.getInt(2) == 0) {
+            if (isItemUnchecked(data)) {
                 checked = false;
-            } else if (data.getInt(2) == 1) {
+            } else if (isItemChecked(data)) {
                 checked = true;
             } else {
                 throw new UnexpectedDataException("Wrong data assigned to SQL boolean, may be 1 or 0 only!");
             }
             listItems.add(new Item(name, id, checked));
         }
+    }
+
+    private boolean isItemChecked(Cursor data) {
+        return data.getInt(2) == 1;
+    }
+
+    private boolean isItemUnchecked(Cursor data) {
+        return data.getInt(2) == 0;
     }
 
     private void displayListElements() {
@@ -76,13 +85,15 @@ public class ShowTodoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isChecked(itemName)) {
-                    setUnchecked(itemName);
-                    if (!database.changeStatusOfItem(item.getId(), 0)) {
+                    if (database.changeStatusOfItem(item.getId(), 0)) {
+                        setUnchecked(itemName);
+                    } else {
                         Log.e("Database Error", "Error while updating items.");
                     }
                 } else {
-                    setChecked(itemName);
-                    if (!database.changeStatusOfItem(item.getId(), 1)) {
+                    if (database.changeStatusOfItem(item.getId(), 1)) {
+                        setChecked(itemName);
+                    } else {
                         Log.e("Database Error", "Error while updating items.");
                     }
                 }

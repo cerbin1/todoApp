@@ -29,7 +29,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
     private EditText nameOfItemEditText;
 
     private DatabaseHelper database;
-    private List<Item> listItems;
+    private final List<Item> items = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class CreateTodoListActivity extends AppCompatActivity {
         nameOfItemEditText = findViewById(R.id.nameOfItem);
 
         database = new DatabaseHelper(this);
-        listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
 
         addListeners();
     }
@@ -61,14 +60,14 @@ public class CreateTodoListActivity extends AppCompatActivity {
 
                 if (nameOfList.equals("")) {
                     displayToastWithText("Empty name of list!");
-                } else if (listItems.isEmpty()) {
+                } else if (items.isEmpty()) {
                     displayToastWithText("Add some items!");
                 } else if (isAnyEmptyItemInList()) {
                     displayToastWithText("Some items have no name!");
                 } else {
                     if (database.createTodoList(nameOfList)) {
                         int idOfList = getIdOfList(nameOfList);
-                        database.addItemsToList(idOfList, listItems);
+                        database.addItemsToList(idOfList, items);
                     } else {
                         Log.e("Database Error", "Error while creating todo list.");
                     }
@@ -84,16 +83,11 @@ public class CreateTodoListActivity extends AppCompatActivity {
         });
     }
 
-
-    private void displayToastWithText(String text) {
-        makeText(CreateTodoListActivity.this, text, LENGTH_SHORT).show();
-    }
-
     public void addTableRow() {
         final TableRow tableRow = new TableRow(this);
         tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
-        Item item = new Item(getNameOfItemFromEditText(), listItems.size(), false);
-        listItems.add(item);
+        Item item = new Item(getNameOfItem(), items.size(), false);
+        items.add(item);
         tableRow.addView(createNameOfItemEditText());
         tableRow.addView(createDeleteItemImageButton(tableRow, item));
 
@@ -108,26 +102,30 @@ public class CreateTodoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tableLayout.removeView(tableRow);
-                listItems.remove(item);
+                items.remove(item);
             }
         });
         return deleteItem;
     }
 
     @NonNull
-    private EditText createNameOfItemEditText() {
-        EditText nameOfItemEditText = new EditText(this);
-        nameOfItemEditText.setText(getNameOfItemFromEditText());
-        return nameOfItemEditText;
-    }
-
-    @NonNull
-    private String getNameOfItemFromEditText() {
+    private String getNameOfItem() {
         return nameOfItemEditText.getText().toString();
     }
 
+    @NonNull
+    private EditText createNameOfItemEditText() {
+        EditText nameOfItemEditText = new EditText(this);
+        nameOfItemEditText.setText(getNameOfItem());
+        return nameOfItemEditText;
+    }
+
+    private void displayToastWithText(String text) {
+        makeText(CreateTodoListActivity.this, text, LENGTH_SHORT).show();
+    }
+
     public boolean isAnyEmptyItemInList() {
-        for (Item item : listItems) {
+        for (Item item : items) {
             if (item.isEmpty()) {
                 return true;
             }
