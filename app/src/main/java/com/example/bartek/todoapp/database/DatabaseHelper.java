@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addItemsToList(int idOfList, List<Item> items) {
         SQLiteDatabase database = this.getWritableDatabase();
         for (Item item : items) {
-            database.execSQL(getInsertItemToListQuery(idOfList, item.getName(), item.getId()));
+            database.execSQL(getInsertItemToListQuery(idOfList, item.getName()));
         }
     }
 

@@ -51,7 +51,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
             } else {
                 throw new UnexpectedDataException("Wrong data assigned to SQL boolean, may be 1 or 0 only!");
             }
-            listItems.add(new Item(name, id, checked));
+            listItems.add(new Item(name, checked, id));
         }
     }
 
