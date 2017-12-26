@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity {
                         .setTitle("Delete confirmation")
                         .setMessage("Are you sure you want to delete list?")
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 tableLayout.removeView(tableRow);
                                 database.deleteList(listId);
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(R.string.No, null)
                         .show();
             }
         });
