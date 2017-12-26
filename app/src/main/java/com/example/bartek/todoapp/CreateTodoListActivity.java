@@ -50,7 +50,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addTableRow();
+                appendTableRow();
             }
         });
         createListButton.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +85,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
         });
     }
 
-    public void addTableRow() {
+    public void appendTableRow() {
         final TableRow tableRow = createTableRow();
         Item item = new Item(getNameOfItem(), items.size(), false);
         items.add(item);
