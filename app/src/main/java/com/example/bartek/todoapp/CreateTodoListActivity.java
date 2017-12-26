@@ -87,12 +87,16 @@ public class CreateTodoListActivity extends AppCompatActivity {
 
     public void appendTableRow() {
         final TableRow tableRow = createTableRow();
+        addListItemTo(tableRow);
+
+        tableLayout.addView(tableRow);
+    }
+
+    private void addListItemTo(TableRow tableRow) {
         Item item = new Item(getNameOfItem(), items.size(), false);
         items.add(item);
         tableRow.addView(createNameOfItemEditText());
         tableRow.addView(createDeleteItemImageButton(tableRow, item));
-
-        tableLayout.addView(tableRow);
     }
 
     @NonNull
