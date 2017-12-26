@@ -16,7 +16,7 @@ import android.widget.TableRow;
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
 import static android.view.Gravity.CENTER_HORIZONTAL;
-import static com.example.bartek.todoapp.StringResources.NAME_OF_LIST_STRING;
+import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper database;
@@ -58,11 +58,8 @@ public class MainActivity extends AppCompatActivity {
             tableRow.setGravity(CENTER_HORIZONTAL);
 
             String listName = data.getString(1);
-            Button button = createShowListButton(listName);
-
-            tableRow.addView(button);
-
             int listId = data.getInt(0);
+            tableRow.addView(createShowListButton(listName, listId));
             tableRow.addView(createDeleteListButton(tableRow, listId));
 
             tableLayout.addView(tableRow);
@@ -98,14 +95,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private Button createShowListButton(final String listName) {
+    private Button createShowListButton(String listName, final int listId) {
         Button button = new Button(this);
         button.setText(listName);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ShowTodoListActivity.class);
-                intent.putExtra(NAME_OF_LIST_STRING, listName);
+                intent.putExtra(ID_OF_LIST, listId);
                 startActivity(intent);
             }
         });

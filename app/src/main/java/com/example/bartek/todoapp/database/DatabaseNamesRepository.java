@@ -35,7 +35,7 @@ public final class DatabaseNamesRepository {
     static final String SELECT_ID_OF_LIST = "SELECT " + LIST_ID + " FROM " + TABLE_LISTS + " WHERE " + LIST_NAME + "=?";
     static final String SELECT_ITEMS = "SELECT " + TABLE_ITEMS + "." + ITEM_NAME + ", " + TABLE_ITEMS + "." + ITEM_ID + ", " + TABLE_ITEMS
             + "." + ITEM_CHECKED + " FROM " + TABLE_LISTS + " JOIN " + TABLE_ITEMS + " ON " + TABLE_LISTS
-            + "." + LIST_ID + "=" + TABLE_ITEMS + "." + ITEM_ID_LIST_FOREIGN_KEY + " WHERE " + TABLE_LISTS + "." + LIST_NAME + "=?";
+            + "." + LIST_ID + "=" + TABLE_ITEMS + "." + ITEM_ID_LIST_FOREIGN_KEY + " WHERE " + TABLE_LISTS + "." + LIST_ID + "=?";
 
     static String getInsertItemToListQuery(int idOfList, String name) {
         return "INSERT INTO " + TABLE_ITEMS + "(" + ITEM_ID_LIST_FOREIGN_KEY + ", " + ITEM_NAME + ", " + ITEM_CHECKED + ") VALUES(" + idOfList + ", \"" + name + "\", 0);";

@@ -71,9 +71,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return database.rawQuery(SELECT_ID_OF_LIST, new String[]{nameOfList});
     }
 
-    public Cursor getItems(String nameOfList) {
+    public Cursor getItems(int listId) {
         SQLiteDatabase database = this.getReadableDatabase();
-        return database.rawQuery(SELECT_ITEMS, new String[]{nameOfList});
+        return database.rawQuery(SELECT_ITEMS, new String[]{Integer.toString(listId)});
     }
 
     public boolean changeStatusOfItem(int idOfItem, int value) {

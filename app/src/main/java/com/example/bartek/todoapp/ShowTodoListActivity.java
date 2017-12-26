@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
-import static com.example.bartek.todoapp.StringResources.NAME_OF_LIST_STRING;
+import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 
 public class ShowTodoListActivity extends AppCompatActivity {
     private DatabaseHelper database;
@@ -38,8 +38,8 @@ public class ShowTodoListActivity extends AppCompatActivity {
     }
 
     private void getListItems() {
-        String nameOfList = getIntent().getStringExtra(NAME_OF_LIST_STRING);
-        Cursor data = database.getItems(nameOfList);
+        int listId = getIntent().getIntExtra(ID_OF_LIST, -1);
+        Cursor data = database.getItems(listId);
         while (data.moveToNext()) {
             String name = data.getString(0);
             int id = data.getInt(1);
