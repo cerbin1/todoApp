@@ -5,7 +5,7 @@ public final class DatabaseNamesRepository {
     static final String DATABASE_NAME = "todo_list.db";
     static final String TABLE_LISTS = "Lists";
     static final String TABLE_ITEMS = "Items";
-    static final int DATABASE_VERSION = 8;
+    static final int DATABASE_VERSION = 16;
 
     static final String LIST_ID = "Id";
     static final String LIST_NAME = "Name";
@@ -33,6 +33,7 @@ public final class DatabaseNamesRepository {
     static final String DELETE_TABLE_ITEMS = " DROP TABLE IF EXISTS " + TABLE_ITEMS;
     static final String SELECT_LISTS = "SELECT " + LIST_ID + ", " + LIST_NAME + " FROM " + TABLE_LISTS;
     static final String SELECT_ID_OF_LIST = "SELECT " + LIST_ID + " FROM " + TABLE_LISTS + " WHERE " + LIST_NAME + "=?";
+    static final String SELECT_NAME_OF_LIST = "SELECT " + LIST_NAME + " FROM " + TABLE_LISTS + " WHERE " + LIST_ID + "=?";
     static final String SELECT_ITEMS = "SELECT " + TABLE_ITEMS + "." + ITEM_NAME + ", " + TABLE_ITEMS + "." + ITEM_ID + ", " + TABLE_ITEMS
             + "." + ITEM_CHECKED + " FROM " + TABLE_LISTS + " JOIN " + TABLE_ITEMS + " ON " + TABLE_LISTS
             + "." + LIST_ID + "=" + TABLE_ITEMS + "." + ITEM_ID_LIST_FOREIGN_KEY + " WHERE " + TABLE_LISTS + "." + LIST_ID + "=?";

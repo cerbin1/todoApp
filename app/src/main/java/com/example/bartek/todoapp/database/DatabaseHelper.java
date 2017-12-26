@@ -23,6 +23,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_N
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ID_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ITEMS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_LISTS;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_NAME_OF_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_ITEMS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.TABLE_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.getInsertItemToListQuery;
@@ -74,6 +75,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getItems(int listId) {
         SQLiteDatabase database = this.getReadableDatabase();
         return database.rawQuery(SELECT_ITEMS, new String[]{Integer.toString(listId)});
+    }
+
+    public Cursor getNameOfList(int listId) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        return database.rawQuery(SELECT_NAME_OF_LIST, new String[]{Integer.toString(listId)});
     }
 
     public boolean changeStatusOfItem(int idOfItem, int value) {

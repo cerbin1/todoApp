@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 public class ShowTodoListActivity extends AppCompatActivity {
     private DatabaseHelper database;
     private final List<Item> listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
+    private int listId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,12 @@ public class ShowTodoListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_todo_list);
         database = new DatabaseHelper(this);
 
+        listId = getIntent().getIntExtra(ID_OF_LIST, -1);
         getListItems();
         displayListElements();
     }
 
     private void getListItems() {
-        int listId = getIntent().getIntExtra(ID_OF_LIST, -1);
         Cursor data = database.getItems(listId);
         while (data.moveToNext()) {
             String name = data.getString(0);
@@ -65,6 +67,12 @@ public class ShowTodoListActivity extends AppCompatActivity {
 
     private void displayListElements() {
         LinearLayout container = findViewById(R.id.linearLayout);
+
+        LinearLayout headingLayout = createLinearLayoutForNameOfListAndEditButton();
+        headingLayout.addView(createNameOfListTextView());
+        headingLayout.addView(createEditListButton());
+
+        container.addView(headingLayout);
         for (Item item : listItems) {
             TextView itemName = createItemNameTextView(item.getName());
 
@@ -73,6 +81,34 @@ public class ShowTodoListActivity extends AppCompatActivity {
             newEntryLayout.addView(createItemButton(itemName, item));
             container.addView(newEntryLayout);
         }
+    }
+
+    @NonNull
+    private LinearLayout createLinearLayoutForNameOfListAndEditButton() {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setGravity(Gravity.CENTER);
+        return linearLayout;
+    }
+
+    private String getNameOfList() {
+        Cursor data = database.getNameOfList(listId);
+        if (data.moveToNext()) {
+            return data.getString(0);
+        } else {
+            throw new UnexpectedDataException("Not found name of list with given id!");
+        }
+    }
+
+    private ImageButton createEditListButton() {
+        ImageButton editListButton = new ImageButton(this);
+        editListButton.setBackgroundResource(R.drawable.ic_edit);
+        editListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        return editListButton;
     }
 
     @NonNull
@@ -136,5 +172,12 @@ public class ShowTodoListActivity extends AppCompatActivity {
         params.weight = 1.0f;
         params.gravity = Gravity.START;
         return params;
+    }
+
+    public TextView createNameOfListTextView() {
+        TextView textView = new TextView(this);
+        textView.setTextSize(25);
+        textView.setText(getNameOfList());
+        return textView;
     }
 }
