@@ -1,5 +1,6 @@
 package com.example.bartek.todoapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -105,7 +106,13 @@ public class ShowTodoListActivity extends AppCompatActivity {
         editListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startShowTodoListActivity();
+            }
 
+            private void startShowTodoListActivity() {
+                Intent intent = new Intent(ShowTodoListActivity.this, EditTodoListActivity.class);
+                intent.putExtra(ID_OF_LIST, listId);
+                startActivity(intent);
             }
         });
         return editListButton;
