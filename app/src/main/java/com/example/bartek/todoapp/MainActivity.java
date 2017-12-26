@@ -1,5 +1,7 @@
 package com.example.bartek.todoapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -68,14 +70,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ImageButton createDeleteListButton(final TableRow tableRow, final int listId) {
-
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tableLayout.removeView(tableRow);
-                database.deleteList(listId);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete confirmation")
+                        .setMessage("Are you sure you want to delete list?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                tableLayout.removeView(tableRow);
+                                database.deleteList(listId);
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
         return deleteItem;
