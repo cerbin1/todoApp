@@ -75,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showDeleteListConfirmationAlertDialog();
+            }
+
+            private void showDeleteListConfirmationAlertDialog() {
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Delete confirmation")
                         .setMessage("Are you sure you want to delete list?")
