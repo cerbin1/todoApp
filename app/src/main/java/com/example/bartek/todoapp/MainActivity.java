@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startShowTodoListActivity();
+            }
+
+            private void startShowTodoListActivity() {
                 Intent intent = new Intent(MainActivity.this, ShowTodoListActivity.class);
                 intent.putExtra(ID_OF_LIST, listId);
                 startActivity(intent);
