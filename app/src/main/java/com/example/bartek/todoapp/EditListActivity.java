@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
@@ -55,20 +56,44 @@ public class EditListActivity extends AppCompatActivity {
     }
 
     private void saveListEdits() {
-        saveEditsToDatabase();
-        startMainActivity();
+        boolean resultOfSaveEdits = saveEditsToDatabase();
+        if (resultOfSaveEdits) {
+            startMainActivity();
+        }
     }
 
-    private void saveEditsToDatabase() {
-        database.deleteListElements(todoList.getId());
+    private boolean saveEditsToDatabase() {
+        int itemsCount = tableLayout.getChildCount() - 1;
         String newName = getNewListNameFromEditText();
+        String[] itemNames = getNamesOfItems(itemsCount);
+        if (itemsCount < 1) {
+            Toast.makeText(this, "At least one item is required!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (newName.isEmpty()) {
+            Toast.makeText(this, "Todo list name is empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (isAnyEmptyItemNameIn(itemNames)) {
+            Toast.makeText(this, "One of item name is empty!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        database.deleteListElements(todoList.getId());
         if (todoList.isRenamed(newName)) {
             database.updateListName(todoList.getId(), newName);
         }
-        int itemsCount = tableLayout.getChildCount() - 1;
-        String[] itemNames = getNamesOfItems(itemsCount);
         todoList.setItemsFromArray(itemNames);
         database.addItemsToList(todoList.getId(), todoList.getItems());
+        return true;
+    }
+
+    private boolean isAnyEmptyItemNameIn(String[] itemNames) {
+        for (String name : itemNames) {
+            if (name.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @NonNull
