@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateListActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, CreateListActivity.class));
             }
         });
     }
@@ -64,6 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
             tableLayout.addView(tableRow);
         }
+    }
+
+    @NonNull
+    private Button createShowListButton(String listName, final int listId) {
+        Button button = new Button(this);
+        button.setText(listName);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startShowListActivity();
+            }
+
+            private void startShowListActivity() {
+                Intent intent = new Intent(MainActivity.this, ShowListActivity.class);
+                intent.putExtra(ID_OF_LIST, listId);
+                startActivity(intent);
+            }
+        });
+        return button;
     }
 
     private ImageButton createDeleteListButton(final TableRow tableRow, final int listId) {
@@ -92,24 +110,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return deleteItem;
-    }
-
-    @NonNull
-    private Button createShowListButton(String listName, final int listId) {
-        Button button = new Button(this);
-        button.setText(listName);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startShowListActivity();
-            }
-
-            private void startShowListActivity() {
-                Intent intent = new Intent(MainActivity.this, ShowListActivity.class);
-                intent.putExtra(ID_OF_LIST, listId);
-                startActivity(intent);
-            }
-        });
-        return button;
     }
 }

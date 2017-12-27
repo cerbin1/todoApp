@@ -6,7 +6,6 @@ import com.example.bartek.todoapp.database.DatabaseHelper;
 import com.example.bartek.todoapp.database.UnexpectedDataException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TodoList {
@@ -21,7 +20,6 @@ public class TodoList {
         name = getNameFromDatabase(id);
         items = new ArrayList<>(5);
         setItems();
-//        this.items = items;
     }
 
     private String getNameFromDatabase(int id) {

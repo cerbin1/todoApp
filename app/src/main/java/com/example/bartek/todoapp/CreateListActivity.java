@@ -96,6 +96,13 @@ public class CreateListActivity extends AppCompatActivity {
         tableLayout.addView(tableRow);
     }
 
+    @NonNull
+    private TableRow createTableRow() {
+        final TableRow tableRow = new TableRow(this);
+        tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
+        return tableRow;
+    }
+
     private void addListItemTo(TableRow tableRow) {
         Item item = new Item(getNameOfItem(), false);
         items.add(item);
@@ -104,10 +111,15 @@ public class CreateListActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private TableRow createTableRow() {
-        final TableRow tableRow = new TableRow(this);
-        tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
-        return tableRow;
+    private String getNameOfItem() {
+        return nameOfItemEditText.getText().toString();
+    }
+
+    @NonNull
+    private EditText createNameOfItemEditText() {
+        EditText nameOfItemEditText = new EditText(this);
+        nameOfItemEditText.setText(getNameOfItem());
+        return nameOfItemEditText;
     }
 
     @NonNull
@@ -124,22 +136,6 @@ public class CreateListActivity extends AppCompatActivity {
         return deleteItem;
     }
 
-    @NonNull
-    private String getNameOfItem() {
-        return nameOfItemEditText.getText().toString();
-    }
-
-    @NonNull
-    private EditText createNameOfItemEditText() {
-        EditText nameOfItemEditText = new EditText(this);
-        nameOfItemEditText.setText(getNameOfItem());
-        return nameOfItemEditText;
-    }
-
-    private void displayToastWithText(String text) {
-        makeText(CreateListActivity.this, text, LENGTH_SHORT).show();
-    }
-
     public boolean isAnyEmptyItemInList() {
         for (Item item : items) {
             if (item.isEmpty()) {
@@ -147,5 +143,9 @@ public class CreateListActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void displayToastWithText(String text) {
+        makeText(CreateListActivity.this, text, LENGTH_SHORT).show();
     }
 }

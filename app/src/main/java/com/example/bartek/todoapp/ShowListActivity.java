@@ -51,23 +51,7 @@ public class ShowListActivity extends AppCompatActivity {
             container.addView(newEntryLayout);
         }
 
-        Button resetCheckedItemsButton = new Button(this);
-        resetCheckedItemsButton.setText("Reset checked items");
-        resetCheckedItemsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uncheckAllItems();
-            }
-
-            private void uncheckAllItems() {
-                for (int i = 1; i < container.getChildCount() - 1; i++) {
-                    LinearLayout nextItemLayout = (LinearLayout) container.getChildAt(i);
-                    TextView itemName = (TextView) nextItemLayout.getChildAt(0);
-                    setUnchecked(itemName);
-                }
-                database.uncheckAllItems(todoList.getId());
-            }
-        });
+        Button resetCheckedItemsButton = getButton(container);
         container.addView(resetCheckedItemsButton);
     }
 
@@ -76,6 +60,13 @@ public class ShowListActivity extends AppCompatActivity {
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setGravity(Gravity.CENTER);
         return linearLayout;
+    }
+
+    public TextView createNameOfListTextView() {
+        TextView textView = new TextView(this);
+        textView.setTextSize(25);
+        textView.setText(getNameOfList());
+        return textView;
     }
 
     private String getNameOfList() {
@@ -103,6 +94,24 @@ public class ShowListActivity extends AppCompatActivity {
             }
         });
         return editListButton;
+    }
+
+    public TextView createItemNameTextView(String itemName) {
+        TextView itemNameTextView = new TextView(this);
+        itemNameTextView.setGravity(Gravity.CENTER);
+        itemNameTextView.setText(itemName);
+        itemNameTextView.setTextSize(25);
+        setUnchecked(itemNameTextView);
+        return itemNameTextView;
+    }
+
+    @NonNull
+    private LinearLayout.LayoutParams getLayoutParamsForItem() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.weight = 1.0f;
+        params.gravity = Gravity.START;
+        return params;
     }
 
     @NonNull
@@ -134,6 +143,28 @@ public class ShowListActivity extends AppCompatActivity {
         return itemButton;
     }
 
+    @NonNull
+    private Button getButton(final LinearLayout container) {
+        Button resetCheckedItemsButton = new Button(this);
+        resetCheckedItemsButton.setText("Reset checked items");
+        resetCheckedItemsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uncheckAllItems();
+            }
+
+            private void uncheckAllItems() {
+                for (int i = 1; i < container.getChildCount() - 1; i++) {
+                    LinearLayout nextItemLayout = (LinearLayout) container.getChildAt(i);
+                    TextView itemName = (TextView) nextItemLayout.getChildAt(0);
+                    setUnchecked(itemName);
+                }
+                database.uncheckAllItems(todoList.getId());
+            }
+        });
+        return resetCheckedItemsButton;
+    }
+
     private void setChecked(TextView itemName) {
         itemName.setPaintFlags(itemName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         itemName.setTypeface(Typeface.DEFAULT);
@@ -148,30 +179,5 @@ public class ShowListActivity extends AppCompatActivity {
 
     private boolean isChecked(TextView itemName) {
         return itemName.getCurrentTextColor() == Color.GRAY;
-    }
-
-    public TextView createItemNameTextView(String itemName) {
-        TextView itemNameTextView = new TextView(this);
-        itemNameTextView.setGravity(Gravity.CENTER);
-        itemNameTextView.setText(itemName);
-        itemNameTextView.setTextSize(25);
-        setUnchecked(itemNameTextView);
-        return itemNameTextView;
-    }
-
-    @NonNull
-    private LinearLayout.LayoutParams getLayoutParamsForItem() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.weight = 1.0f;
-        params.gravity = Gravity.START;
-        return params;
-    }
-
-    public TextView createNameOfListTextView() {
-        TextView textView = new TextView(this);
-        textView.setTextSize(25);
-        textView.setText(getNameOfList());
-        return textView;
     }
 }

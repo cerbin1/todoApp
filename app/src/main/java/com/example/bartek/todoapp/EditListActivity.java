@@ -70,6 +70,11 @@ public class EditListActivity extends AppCompatActivity {
         database.addItemsToList(todoList.getId(), todoList.getItems());
     }
 
+    @NonNull
+    private String getNewListNameFromEditText() {
+        return ((EditText) ((TableRow) tableLayout.getChildAt(0)).getChildAt(0)).getText().toString();
+    }
+
     private String[] getNamesOfItems(int itemsCount) {
         String[] itemNames = new String[itemsCount];
         for (int i = 0; i < itemsCount; i++) {
@@ -79,11 +84,6 @@ public class EditListActivity extends AppCompatActivity {
             itemNames[i] = itemName;
         }
         return itemNames;
-    }
-
-    @NonNull
-    private String getNewListNameFromEditText() {
-        return ((EditText) ((TableRow) tableLayout.getChildAt(0)).getChildAt(0)).getText().toString();
     }
 
     private void startMainActivity() {
@@ -106,6 +106,27 @@ public class EditListActivity extends AppCompatActivity {
     }
 
     @NonNull
+    private TableRow createTableRow() {
+        TableRow tableRow = new TableRow(this);
+        tableRow.setGravity(Gravity.CENTER);
+        return tableRow;
+    }
+
+    public EditText createNameOfListEditText() {
+        EditText editText = new EditText(this);
+        editText.setTextSize(25);
+        editText.setText(todoList.getName());
+        return editText;
+    }
+
+    @NonNull
+    private EditText createNameOfItemEditText(String name) {
+        EditText nameOfItemEditText = new EditText(this);
+        nameOfItemEditText.setText(name);
+        return nameOfItemEditText;
+    }
+
+    @NonNull
     private ImageButton createDeleteItemImageButton(final TableRow tableRow, final Item item) {
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
@@ -117,26 +138,5 @@ public class EditListActivity extends AppCompatActivity {
             }
         });
         return deleteItem;
-    }
-
-    @NonNull
-    private EditText createNameOfItemEditText(String name) {
-        EditText nameOfItemEditText = new EditText(this);
-        nameOfItemEditText.setText(name);
-        return nameOfItemEditText;
-    }
-
-    public EditText createNameOfListEditText() {
-        EditText editText = new EditText(this);
-        editText.setTextSize(25);
-        editText.setText(todoList.getName());
-        return editText;
-    }
-
-    @NonNull
-    private TableRow createTableRow() {
-        TableRow tableRow = new TableRow(this);
-        tableRow.setGravity(Gravity.CENTER);
-        return tableRow;
     }
 }
