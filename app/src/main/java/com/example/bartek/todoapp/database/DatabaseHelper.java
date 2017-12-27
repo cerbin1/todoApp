@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(LIST_NAME, listName);
-        int result = database.update(TABLE_LISTS, contentValues, LIST_ID + "=" + listId, null);
+        int result = database.update(TABLE_LISTS, contentValues, LIST_ID + "=?", new String[]{Integer.toString(listId)});
         return result != 0;
     }
 
@@ -113,6 +113,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ITEM_CHECKED, 0);
-        database.update(TABLE_ITEMS, contentValues, ITEM_ID_LIST_FOREIGN_KEY + "=" + listId, null);
+        database.update(TABLE_ITEMS, contentValues, ITEM_ID_LIST_FOREIGN_KEY + "=?", new String[]{Integer.toString(listId)});
     }
 }
