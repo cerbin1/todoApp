@@ -91,6 +91,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != 0;
     }
 
+    public void deleteList(int listId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_LISTS, LIST_ID + "=?", new String[]{Integer.toString(listId)});
+    }
+
     public void deleteListElements(int listId) {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_ITEMS, ITEM_ID_LIST_FOREIGN_KEY + "=?", new String[]{Integer.toString(listId)});
