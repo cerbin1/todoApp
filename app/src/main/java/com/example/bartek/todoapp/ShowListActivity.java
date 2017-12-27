@@ -30,7 +30,8 @@ public class ShowListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_list);
         database = new DatabaseHelper(this);
-        todoList = new TodoList(database, getIntent().getIntExtra(ID_OF_LIST, -1));
+        int listIdFromExtra = getIntent().getIntExtra(ID_OF_LIST, -1);
+        todoList = new TodoList(database, listIdFromExtra);
         displayListElements();
     }
 

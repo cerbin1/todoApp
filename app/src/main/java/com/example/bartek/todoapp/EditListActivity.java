@@ -29,7 +29,8 @@ public class EditListActivity extends AppCompatActivity {
 
         database = new DatabaseHelper(this);
         tableLayout = findViewById(R.id.tableLayout);
-        todoList = new TodoList(database, getIntent().getIntExtra(ID_OF_LIST, -1));
+        int listIdFromExtra = getIntent().getIntExtra(ID_OF_LIST, -1);
+        todoList = new TodoList(database, listIdFromExtra);
         createViewToEdit();
     }
 
