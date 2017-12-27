@@ -114,19 +114,19 @@ public class ShowListActivity extends AppCompatActivity {
         itemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isChecked(itemName)) {
-                    if (database.changeStatusOfItem(item.getId(), 0)) {
+                if (changedStatusOfItemInDatabase()) {
+                    if (item.isChecked()) {
                         setUnchecked(itemName);
                     } else {
-                        Log.e("Database Error", "Error while updating items.");
+                        setChecked(itemName);
                     }
                 } else {
-                    if (database.changeStatusOfItem(item.getId(), 1)) {
-                        setChecked(itemName);
-                    } else {
-                        Log.e("Database Error", "Error while updating items.");
-                    }
+                    Log.e("Database Error", "Error while updating items.");
                 }
+            }
+
+            private boolean changedStatusOfItemInDatabase() {
+                return database.changeStatusOfItem(item.getId(), item.isChecked() ? 0 : 1);
             }
         });
 
