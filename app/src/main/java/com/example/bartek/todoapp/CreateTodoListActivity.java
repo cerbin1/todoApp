@@ -56,6 +56,10 @@ public class CreateTodoListActivity extends AppCompatActivity {
         createListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                createNewList();
+            }
+
+            private void createNewList() {
                 String nameOfList = ((EditText) findViewById(R.id.nameOfList)).getText().toString();
 
                 if (nameOfList.equals("")) {
