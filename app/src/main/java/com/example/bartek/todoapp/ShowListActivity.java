@@ -176,8 +176,4 @@ public class ShowListActivity extends AppCompatActivity {
         itemName.setTypeface(null, Typeface.BOLD);
         itemName.setTextColor(Color.RED);
     }
-
-    private boolean isChecked(TextView itemName) {
-        return itemName.getCurrentTextColor() == Color.GRAY;
-    }
 }
