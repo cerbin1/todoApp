@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import com.example.bartek.todoapp.database.DatabaseHelper;
 
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 
 public class EditListActivity extends AppCompatActivity {
@@ -67,15 +68,15 @@ public class EditListActivity extends AppCompatActivity {
         String newName = getNewListNameFromEditText();
         String[] itemNames = getNamesOfItems(itemsCount);
         if (itemsCount < 1) {
-            Toast.makeText(this, "At least one item is required!", Toast.LENGTH_SHORT).show();
+            displayToastWithText("At least one item is required!");
             return false;
         }
         if (newName.isEmpty()) {
-            Toast.makeText(this, "Todo list name is empty!", Toast.LENGTH_SHORT).show();
+            displayToastWithText("Todo list name is empty!");
             return false;
         }
         if (isAnyEmptyItemNameIn(itemNames)) {
-            Toast.makeText(this, "One of item name is empty!", Toast.LENGTH_SHORT).show();
+            displayToastWithText("One of item name is empty!");
             return false;
         }
         database.deleteListElements(todoList.getId());
@@ -164,5 +165,9 @@ public class EditListActivity extends AppCompatActivity {
             }
         });
         return deleteItem;
+    }
+
+    private void displayToastWithText(String text) {
+        makeText(EditListActivity.this, text, LENGTH_SHORT).show();
     }
 }
