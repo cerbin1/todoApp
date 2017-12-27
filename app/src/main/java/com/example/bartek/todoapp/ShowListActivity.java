@@ -52,8 +52,7 @@ public class ShowListActivity extends AppCompatActivity {
             container.addView(newEntryLayout);
         }
 
-        Button resetCheckedItemsButton = getButton(container);
-        container.addView(resetCheckedItemsButton);
+        container.addView(createResetCheckedItemsButton(container));
     }
 
     @NonNull
@@ -145,7 +144,7 @@ public class ShowListActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private Button getButton(final LinearLayout container) {
+    private Button createResetCheckedItemsButton(final LinearLayout container) {
         Button resetCheckedItemsButton = new Button(this);
         resetCheckedItemsButton.setText("Reset checked items");
         resetCheckedItemsButton.setOnClickListener(new View.OnClickListener() {
