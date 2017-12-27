@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateTodoListActivity.class);
+                Intent intent = new Intent(MainActivity.this, CreateListActivity.class);
                 startActivity(intent);
             }
         });
@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startShowTodoListActivity();
+                startShowListActivity();
             }
 
-            private void startShowTodoListActivity() {
-                Intent intent = new Intent(MainActivity.this, ShowTodoListActivity.class);
+            private void startShowListActivity() {
+                Intent intent = new Intent(MainActivity.this, ShowListActivity.class);
                 intent.putExtra(ID_OF_LIST, listId);
                 startActivity(intent);
             }

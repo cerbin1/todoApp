@@ -25,7 +25,7 @@ import java.util.List;
 import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
 import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 
-public class ShowTodoListActivity extends AppCompatActivity {
+public class ShowListActivity extends AppCompatActivity {
     private DatabaseHelper database;
     private final List<Item> listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
     private int listId;
@@ -33,7 +33,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todo_list);
+        setContentView(R.layout.activity_show_list);
         database = new DatabaseHelper(this);
 
         listId = getIntent().getIntExtra(ID_OF_LIST, -1);
@@ -125,11 +125,11 @@ public class ShowTodoListActivity extends AppCompatActivity {
         editListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startShowTodoListActivity();
+                startShowListActivity();
             }
 
-            private void startShowTodoListActivity() {
-                Intent intent = new Intent(ShowTodoListActivity.this, EditTodoListActivity.class);
+            private void startShowListActivity() {
+                Intent intent = new Intent(ShowListActivity.this, EditListActivity.class);
                 intent.putExtra(ID_OF_LIST, listId);
                 startActivity(intent);
             }

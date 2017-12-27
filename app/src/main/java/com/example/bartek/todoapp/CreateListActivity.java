@@ -22,7 +22,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 import static android.widget.Toast.makeText;
 import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
 
-public class CreateTodoListActivity extends AppCompatActivity {
+public class CreateListActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private Button addItemButton;
     private Button createListButton;
@@ -71,7 +71,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
                 } else if (isAnyEmptyItemInList()) {
                     displayToastWithText("Some items have no name!");
                 } else {
-                    if (database.createTodoList(nameOfList)) {
+                    if (database.createList(nameOfList)) {
                         int idOfList = getIdOfCreatedList();
                         database.addItemsToList(idOfList, items);
                     } else {
@@ -137,7 +137,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
     }
 
     private void displayToastWithText(String text) {
-        makeText(CreateTodoListActivity.this, text, LENGTH_SHORT).show();
+        makeText(CreateListActivity.this, text, LENGTH_SHORT).show();
     }
 
     public boolean isAnyEmptyItemInList() {
