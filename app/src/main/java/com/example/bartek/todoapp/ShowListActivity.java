@@ -19,51 +19,19 @@ import android.widget.TextView;
 import com.example.bartek.todoapp.database.DatabaseHelper;
 import com.example.bartek.todoapp.database.UnexpectedDataException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.bartek.todoapp.Item.INITIAL_ITEMS_AMOUNT;
 import static com.example.bartek.todoapp.StringResources.ID_OF_LIST;
 
 public class ShowListActivity extends AppCompatActivity {
     private DatabaseHelper database;
-    private final List<Item> listItems = new ArrayList<>(INITIAL_ITEMS_AMOUNT);
-    private int listId;
+    private TodoList todoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_list);
         database = new DatabaseHelper(this);
-
-        listId = getIntent().getIntExtra(ID_OF_LIST, -1);
-        getListItems();
+        todoList = new TodoList(database, getIntent().getIntExtra(ID_OF_LIST, -1));
         displayListElements();
-    }
-
-    private void getListItems() {
-        Cursor data = database.getItems(listId);
-        while (data.moveToNext()) {
-            String name = data.getString(0);
-            int id = data.getInt(1);
-            boolean checked;
-            if (isItemUnchecked(data)) {
-                checked = false;
-            } else if (isItemChecked(data)) {
-                checked = true;
-            } else {
-                throw new UnexpectedDataException("Wrong data assigned to SQL boolean, may be 1 or 0 only!");
-            }
-            listItems.add(new Item(name, checked, id));
-        }
-    }
-
-    private boolean isItemChecked(Cursor data) {
-        return data.getInt(2) == 1;
-    }
-
-    private boolean isItemUnchecked(Cursor data) {
-        return data.getInt(2) == 0;
     }
 
     private void displayListElements() {
@@ -74,7 +42,7 @@ public class ShowListActivity extends AppCompatActivity {
         headingLayout.addView(createEditListButton());
 
         container.addView(headingLayout);
-        for (Item item : listItems) {
+        for (Item item : todoList.getItems()) {
             TextView itemName = createItemNameTextView(item.getName());
 
             LinearLayout newEntryLayout = new LinearLayout(this);
@@ -97,7 +65,7 @@ public class ShowListActivity extends AppCompatActivity {
                     TextView itemName = (TextView) nextItemLayout.getChildAt(0);
                     setUnchecked(itemName);
                 }
-                database.uncheckAllItems(listId);
+                database.uncheckAllItems(todoList.getId());
             }
         });
         container.addView(resetCheckedItemsButton);
@@ -111,7 +79,7 @@ public class ShowListActivity extends AppCompatActivity {
     }
 
     private String getNameOfList() {
-        Cursor data = database.getNameOfList(listId);
+        Cursor data = database.getNameOfList(todoList.getId());
         if (data.moveToNext()) {
             return data.getString(0);
         } else {
@@ -130,7 +98,7 @@ public class ShowListActivity extends AppCompatActivity {
 
             private void startShowListActivity() {
                 Intent intent = new Intent(ShowListActivity.this, EditListActivity.class);
-                intent.putExtra(ID_OF_LIST, listId);
+                intent.putExtra(ID_OF_LIST, todoList.getId());
                 startActivity(intent);
             }
         });
