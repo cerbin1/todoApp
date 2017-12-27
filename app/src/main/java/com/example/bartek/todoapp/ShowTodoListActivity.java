@@ -67,7 +67,7 @@ public class ShowTodoListActivity extends AppCompatActivity {
     }
 
     private void displayListElements() {
-        LinearLayout container = findViewById(R.id.linearLayout);
+        final LinearLayout container = findViewById(R.id.linearLayout);
 
         LinearLayout headingLayout = createLinearLayoutForNameOfListAndEditButton();
         headingLayout.addView(createNameOfListTextView());
@@ -82,6 +82,25 @@ public class ShowTodoListActivity extends AppCompatActivity {
             newEntryLayout.addView(createItemButton(itemName, item));
             container.addView(newEntryLayout);
         }
+
+        Button resetCheckedItemsButton = new Button(this);
+        resetCheckedItemsButton.setText("Reset checked items");
+        resetCheckedItemsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uncheckAllItems();
+            }
+
+            private void uncheckAllItems() {
+                for (int i = 1; i < container.getChildCount() - 1; i++) {
+                    LinearLayout nextItemLayout = (LinearLayout) container.getChildAt(i);
+                    TextView itemName = (TextView) nextItemLayout.getChildAt(0);
+                    setUnchecked(itemName);
+                }
+                database.uncheckAllItems(listId);
+            }
+        });
+        container.addView(resetCheckedItemsButton);
     }
 
     @NonNull
