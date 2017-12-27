@@ -32,7 +32,7 @@ public final class DatabaseNamesRepository {
     static final String DELETE_TABLE_LISTS = "DROP TABLE IF EXISTS " + TABLE_LISTS;
     static final String DELETE_TABLE_ITEMS = " DROP TABLE IF EXISTS " + TABLE_ITEMS;
     static final String SELECT_LISTS = "SELECT " + LIST_ID + ", " + LIST_NAME + " FROM " + TABLE_LISTS;
-    static final String SELECT_ID_OF_LIST = "SELECT " + LIST_ID + " FROM " + TABLE_LISTS + " WHERE " + LIST_NAME + "=?";
+    static final String SELECT_ID_OF_LAST_CREATED_LIST = "SELECT " + LIST_ID + " FROM " + TABLE_LISTS + " ORDER BY " + LIST_ID + " DESC LIMIT 1";
     static final String SELECT_NAME_OF_LIST = "SELECT " + LIST_NAME + " FROM " + TABLE_LISTS + " WHERE " + LIST_ID + "=?";
     static final String SELECT_ITEMS = "SELECT " + TABLE_ITEMS + "." + ITEM_NAME + ", " + TABLE_ITEMS + "." + ITEM_ID + ", " + TABLE_ITEMS
             + "." + ITEM_CHECKED + " FROM " + TABLE_LISTS + " JOIN " + TABLE_ITEMS + " ON " + TABLE_LISTS

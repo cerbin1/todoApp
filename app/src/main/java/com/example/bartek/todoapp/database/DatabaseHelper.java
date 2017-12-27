@@ -21,7 +21,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_I
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_ID_LIST_FOREIGN_KEY;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_ID;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_NAME;
-import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ID_OF_LIST;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ID_OF_LAST_CREATED_LIST;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ITEMS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_NAME_OF_LIST;
@@ -68,9 +68,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return database.rawQuery(SELECT_LISTS, null);
     }
 
-    public Cursor getIdOfList(String nameOfList) {
+    public Cursor getIdOfLastCreatedList() {
         SQLiteDatabase database = this.getReadableDatabase();
-        return database.rawQuery(SELECT_ID_OF_LIST, new String[]{nameOfList});
+        return database.rawQuery(SELECT_ID_OF_LAST_CREATED_LIST, null);
     }
 
     public Cursor getItems(int listId) {

@@ -72,7 +72,7 @@ public class CreateTodoListActivity extends AppCompatActivity {
                     displayToastWithText("Some items have no name!");
                 } else {
                     if (database.createTodoList(nameOfList)) {
-                        int idOfList = getIdOfList(nameOfList);
+                        int idOfList = getIdOfCreatedList();
                         database.addItemsToList(idOfList, items);
                     } else {
                         Log.e("Database Error", "Error while creating todo list.");
@@ -81,8 +81,8 @@ public class CreateTodoListActivity extends AppCompatActivity {
                 }
             }
 
-            private int getIdOfList(String nameOfList) {
-                Cursor idOfList = database.getIdOfList(nameOfList);
+            private int getIdOfCreatedList() {
+                Cursor idOfList = database.getIdOfLastCreatedList();
                 idOfList.moveToFirst();
                 return idOfList.getInt(0);
             }
