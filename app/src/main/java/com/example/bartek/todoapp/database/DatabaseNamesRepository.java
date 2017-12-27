@@ -5,7 +5,7 @@ public final class DatabaseNamesRepository {
     static final String DATABASE_NAME = "todo_list.db";
     static final String TABLE_LISTS = "Lists";
     static final String TABLE_ITEMS = "Items";
-    static final int DATABASE_VERSION = 16;
+    static final int DATABASE_VERSION = 1;
 
     static final String LIST_ID = "Id";
     static final String LIST_NAME = "Name";
