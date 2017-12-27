@@ -1,5 +1,6 @@
 package com.example.bartek.todoapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import com.example.bartek.todoapp.database.DatabaseHelper;
 import com.example.bartek.todoapp.database.UnexpectedDataException;
@@ -29,6 +29,7 @@ public class EditTodoListActivity extends AppCompatActivity {
 
     private int listId;
     private TableLayout tableLayout;
+    private String listName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class EditTodoListActivity extends AppCompatActivity {
         database = new DatabaseHelper(this);
         tableLayout = findViewById(R.id.tableLayout);
         listId = getIntent().getIntExtra(ID_OF_LIST, -1);
+        listName = getNameOfList();
         getListItems();
         createViewToEdit();
     }
@@ -52,14 +54,44 @@ public class EditTodoListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_save) {
-            Toast.makeText(this, listItems.get(0).toString(), Toast.LENGTH_SHORT).show();
+            saveEditsToList();
             return true;
         }
         if (id == R.id.action_cancel) {
-            Toast.makeText(this, listItems.get(0).toString(), Toast.LENGTH_SHORT).show();
+            super.onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveEditsToList() {
+        String newName = getNewListNameFromEditText();
+        saveEditsToDatabase(newName);
+        startMainActivity();
+    }
+
+    private void saveEditsToDatabase(String newName) {
+        database.deleteListElements(listId);
+        if (!newName.equals(listName)) {
+            database.updateListName(listId, newName);
+        }
+        listItems.clear();
+        for (int i = 1; i < tableLayout.getChildCount(); i++) {
+            TableRow tableRow = (TableRow) tableLayout.getChildAt(i);
+            EditText editText = (EditText) tableRow.getChildAt(0);
+            String itemName = editText.getText().toString();
+            listItems.add(new Item(itemName, false));
+        }
+        database.addItemsToList(listId, listItems);
+    }
+
+    @NonNull
+    private String getNewListNameFromEditText() {
+        return ((EditText) ((TableRow) tableLayout.getChildAt(0)).getChildAt(0)).getText().toString();
+    }
+
+    private void startMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     private void createViewToEdit() {
@@ -126,7 +158,7 @@ public class EditTodoListActivity extends AppCompatActivity {
     public EditText createNameOfListEditText() {
         EditText editText = new EditText(this);
         editText.setTextSize(25);
-        editText.setText(getNameOfList());
+        editText.setText(listName);
         return editText;
     }
 

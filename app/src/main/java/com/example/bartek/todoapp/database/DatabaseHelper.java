@@ -18,6 +18,7 @@ import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.DELETE_TABLE_LISTS;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_CHECKED;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_ID;
+import static com.example.bartek.todoapp.database.DatabaseNamesRepository.ITEM_ID_LIST_FOREIGN_KEY;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_ID;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.LIST_NAME;
 import static com.example.bartek.todoapp.database.DatabaseNamesRepository.SELECT_ID_OF_LIST;
@@ -90,8 +91,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != 0;
     }
 
-    public void deleteList(int listId) {
+    public void deleteListElements(int listId) {
         SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(TABLE_LISTS, LIST_ID + "=?", new String[]{Integer.toString(listId)});
+        database.delete(TABLE_ITEMS, ITEM_ID_LIST_FOREIGN_KEY + "=?", new String[]{Integer.toString(listId)});
+    }
+
+    public boolean updateListName(int listId, String listName) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LIST_NAME, listName);
+        int result = database.update(TABLE_LISTS, contentValues, LIST_ID + "=" + listId, null);
+        return result != 0;
     }
 }

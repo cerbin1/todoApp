@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 tableLayout.removeView(tableRow);
-                                database.deleteList(listId);
+                                database.deleteListElements(listId);
                             }
                         })
                         .setNegativeButton(R.string.No, null)
