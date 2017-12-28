@@ -64,7 +64,7 @@ public class EditListActivity extends AppCompatActivity {
     }
 
     private boolean saveEditsToDatabase() {
-        int itemsCount = tableLayout.getChildCount() - 1;
+        int itemsCount = tableLayout.getChildCount() - 2;
         String newName = getNewListNameFromEditText();
         String[] itemNames = getNamesOfItems(itemsCount);
         if (itemsCount < 1) {
@@ -127,9 +127,37 @@ public class EditListActivity extends AppCompatActivity {
         for (Item item : todoList.getItems()) {
             final TableRow tableRow = createTableRow();
             tableRow.addView(createNameOfItemEditText(item.getName()));
-            tableRow.addView(createDeleteItemImageButton(tableRow, item));
+            tableRow.addView(createDeleteItemImageButton(tableRow));
             tableLayout.addView(tableRow);
         }
+        tableLayout.addView(createRowWithButtonToAddItem());
+    }
+
+    private TableRow createRowWithButtonToAddItem() {
+        TableRow tableRow = createTableRow();
+        tableRow.addView(createButtonToAddItem(tableRow));
+        return tableRow;
+    }
+
+    private ImageButton createButtonToAddItem(final TableRow tableRow) {
+        ImageButton imageButton = new ImageButton(this);
+        imageButton.setImageResource(R.drawable.ic_add_item);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                appendRowWithEmptyItem();
+                tableLayout.removeView(tableRow);
+                tableLayout.addView(createRowWithButtonToAddItem());
+            }
+        });
+        return imageButton;
+    }
+
+    private void appendRowWithEmptyItem() {
+        TableRow tableRow = createTableRow();
+        tableRow.addView(createNameOfItemEditText(""));
+        tableRow.addView(createDeleteItemImageButton(tableRow));
+        tableLayout.addView(tableRow);
     }
 
     @NonNull
@@ -154,14 +182,13 @@ public class EditListActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private ImageButton createDeleteItemImageButton(final TableRow tableRow, final Item item) {
+    private ImageButton createDeleteItemImageButton(final TableRow tableRow) {
         ImageButton deleteItem = new ImageButton(this);
         deleteItem.setBackgroundResource(R.drawable.ic_delete);
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tableLayout.removeView(tableRow);
-                todoList.remove(item);
             }
         });
         return deleteItem;

@@ -64,10 +64,6 @@ public class TodoList {
         return id;
     }
 
-    public void remove(Item item) {
-        items.remove(item);
-    }
-
     public String getName() {
         return name;
     }
